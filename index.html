@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Берёзка — Ресторан русской кухни</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Tenor+Sans&family=Lora:ital,wght@0,400;0,500;1,400;1,500&family=Inter:wght@300;400;500&display=swap" rel="stylesheet" />
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body x-data="app()" :class="{ 'menu-open': mobileMenuOpen }">
+
+  <!-- Nav -->
+  <nav class="nav" :class="{ scrolled: scrolled }" id="nav">
+    <div class="nav__wrap">
+      <button class="nav__burger" @click="mobileMenuOpen = !mobileMenuOpen">
+        <span :class="{ open: mobileMenuOpen }"></span>
+        <span :class="{ open: mobileMenuOpen }"></span>
+        <span :class="{ open: mobileMenuOpen }"></span>
+      </button>
+      <a href="#" class="nav__logo">
+        <div class="nav__logo-icon">🌿</div>
+        <div>
+          <span class="nav__logo-name">Берёзка</span>
+          <span class="nav__logo-sub">Ресторан</span>
+        </div>
+      </a>
+      <ul class="nav__links">
+        <li><a href="#story" @click="mobileMenuOpen=false">История</a></li>
+        <li><a href="#menu-section" @click="mobileMenuOpen=false">Меню</a></li>
+        <li><a href="#gallery" @click="mobileMenuOpen=false">Галерея</a></li>
+        <li><a href="#reserve" @click="mobileMenuOpen=false">Резервация</a></li>
+      </ul>
+      <a href="#reserve" class="nav__reserve">Забронировать стол</a>
+    </div>
+    <div class="nav__mobile" :class="{ open: mobileMenuOpen }">
+      <a href="#story" @click="mobileMenuOpen=false">История</a>
+      <a href="#menu-section" @click="mobileMenuOpen=false">Меню</a>
+      <a href="#gallery" @click="mobileMenuOpen=false">Галерея</a>
+      <a href="#reserve" @click="mobileMenuOpen=false">Резервация</a>
+      <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+    </div>
+  </nav>
+
+  <!-- Hero -->
+  <section class="hero">
+    <div class="hero__bg"></div>
+    <div class="hero__content">
+      <p class="hero__pretitle appear">— Ресторан русской кухни</p>
+      <h1 class="hero__title appear">
+        Вкус,<br />который<br /><em>помнит душа</em>
+      </h1>
+      <p class="hero__text appear">
+        Традиционные рецепты, сезонные продукты<br />от российских фермеров и живая атмосфера<br />деревянного зала в сердце Москвы
+      </p>
+      <div class="hero__btns appear">
+        <a href="#menu-section" class="btn btn--red">Смотреть меню</a>
+        <a href="#reserve" class="btn btn--ghost">Забронировать стол</a>
+      </div>
+    </div>
+    <div class="hero__scroll-hint">
+      <div class="hero__scroll-line"></div>
+    </div>
+  </section>
+
+  <!-- Story -->
+  <section class="story" id="story">
+    <div class="container">
+      <div class="story__grid">
+        <div class="story__imgs appear-left">
+          <div class="story__img story__img--main"></div>
+          <div class="story__img story__img--side"></div>
+        </div>
+        <div class="story__text appear-right">
+          <span class="label">Наша история</span>
+          <h2 class="section-title">Рецепты,<br />передаваемые<br />из рук в руки</h2>
+          <p>
+            «Берёзка» открылась в 2012 году в особняке XIX века на Арбате. Основательница ресторана Наталья Морозова собирала рецепты по всей России — от Псковской деревни до казачьих станиц Дона — чтобы воссоздать подлинный вкус русской кухни без компромиссов.
+          </p>
+          <p>
+            Сегодня «Берёзка» — это три зала, закрытая веранда и летняя терраса с берёзовым садом. Шеф-повар Роман Степанов работает исключительно с локальными продуктами: мясо с ферм Тверской области, рыба из карельских озёр, молочные продукты из Вологды.
+          </p>
+          <div class="story__awards">
+            <div class="story__award">
+              <span class="story__award-num">3×</span>
+              <span>Гид Michelin<br/>«Биб Гурмон»</span>
+            </div>
+            <div class="story__award">
+              <span class="story__award-num">#1</span>
+              <span>Рейтинг ресторанов<br/>Москвы 2024</span>
+            </div>
+            <div class="story__award">
+              <span class="story__award-num">12</span>
+              <span>Лет в Москве</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Menu -->
+  <section class="menu-section" id="menu-section" x-data="menuData()">
+    <div class="container">
+      <div class="section-header appear">
+        <span class="label">Меню</span>
+        <h2 class="section-title">Сезонная карта блюд</h2>
+        <p class="menu-season">Летнее меню · Июль 2025</p>
+      </div>
+
+      <div class="menu-tabs">
+        <template x-for="cat in categories" :key="cat.id">
+          <button
+            class="menu-tab"
+            :class="{ active: activeCategory === cat.id }"
+            @click="activeCategory = cat.id"
+            x-text="cat.name"
+          ></button>
+        </template>
+      </div>
+
+      <div class="menu-grid">
+        <template x-for="item in currentItems" :key="item.name">
+          <div class="menu-card" x-show="activeCategory === item.cat" x-transition:enter="fade-in">
+            <div class="menu-card__img" :style="`background-image: url('${item.img}')`"></div>
+            <div class="menu-card__body">
+              <div class="menu-card__top">
+                <h3 x-text="item.name"></h3>
+                <span class="menu-card__price" x-text="item.price + ' ₽'"></span>
+              </div>
+              <p x-text="item.desc"></p>
+              <div class="menu-card__tags">
+                <template x-for="tag in item.tags" :key="tag">
+                  <span class="menu-tag" x-text="tag"></span>
+                </template>
+              </div>
+            </div>
+          </div>
+        </template>
+      </div>
+
+      <div class="menu__footer appear">
+        <p>Полное меню доступно в ресторане. Мы работаем с сезонными продуктами — состав блюд может меняться.</p>
+        <a href="#reserve" class="btn btn--red">Забронировать стол</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Quote -->
+  <section class="quote">
+    <div class="quote__bg"></div>
+    <div class="container">
+      <blockquote class="quote__text appear">
+        «Мы не изобретаем, мы вспоминаем. Русская кухня — это память народа, закодированная в еде.»
+      </blockquote>
+      <cite class="quote__author appear">— Наталья Морозова, основательница «Берёзки»</cite>
+    </div>
+  </section>
+
+  <!-- Gallery -->
+  <section class="gallery" id="gallery">
+    <div class="container">
+      <div class="section-header appear">
+        <span class="label">Атмосфера</span>
+        <h2 class="section-title">Заглянуть<br />в «Берёзку»</h2>
+      </div>
+      <div class="gallery__grid">
+        <div class="gallery__item gallery__item--tall appear">
+          <div class="gallery__img" style="background-image: url('https://images.unsplash.com/photo-1414235077428-338989a2e8c0?w=600&q=80')"></div>
+        </div>
+        <div class="gallery__item appear">
+          <div class="gallery__img" style="background-image: url('https://images.unsplash.com/photo-1504674900247-0877df9cc836?w=600&q=80')"></div>
+        </div>
+        <div class="gallery__item appear">
+          <div class="gallery__img" style="background-image: url('https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&q=80')"></div>
+        </div>
+        <div class="gallery__item appear">
+          <div class="gallery__img" style="background-image: url('https://images.unsplash.com/photo-1540189549336-e6e99c3679fe?w=600&q=80')"></div>
+        </div>
+        <div class="gallery__item gallery__item--wide appear">
+          <div class="gallery__img" style="background-image: url('https://images.unsplash.com/photo-1517248135467-4c7edcad34c4?w=900&q=80')"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Reserve -->
+  <section class="reserve" id="reserve">
+    <div class="container">
+      <div class="reserve__grid">
+        <div class="reserve__info appear-left">
+          <span class="label">Резервация</span>
+          <h2 class="section-title">Зарезервируйте<br />ваш стол</h2>
+          <p>Принимаем гостей каждый день. Для банкетов и корпоративных мероприятий — отдельный зал на 60 персон.</p>
+          <div class="reserve__contacts">
+            <div class="reserve__contact-item">
+              <strong>Телефон</strong>
+              <a href="tel:+74951234567">+7 (495) 123-45-67</a>
+            </div>
+            <div class="reserve__contact-item">
+              <strong>Email</strong>
+              <a href="mailto:hello@berezka-rest.ru">hello@berezka-rest.ru</a>
+            </div>
+            <div class="reserve__contact-item">
+              <strong>Адрес</strong>
+              <p>Москва, ул. Арбат, 22<br />(вход с Кривоарбатского переулка)</p>
+            </div>
+            <div class="reserve__contact-item">
+              <strong>Режим работы</strong>
+              <p>Пн–Чт: 12:00–23:00<br />Пт–Вс: 12:00–00:00</p>
+            </div>
+          </div>
+        </div>
+        <div class="reserve__form-wrap appear-right" x-data="reserveForm()">
+          <form @submit.prevent="submit" class="reserve__form">
+            <div class="form-row">
+              <div class="form-group">
+                <label>Имя</label>
+                <input type="text" x-model="form.name" placeholder="Иван Иванов" required />
+              </div>
+              <div class="form-group">
+                <label>Телефон</label>
+                <input type="tel" x-model="form.phone" placeholder="+7 (___) ___-__-__" required />
+              </div>
+            </div>
+            <div class="form-row">
+              <div class="form-group">
+                <label>Дата</label>
+                <input type="date" x-model="form.date" required />
+              </div>
+              <div class="form-group">
+                <label>Время</label>
+                <select x-model="form.time" required>
+                  <option value="">Выберите время</option>
+                  <option>12:00</option><option>13:00</option><option>14:00</option>
+                  <option>15:00</option><option>16:00</option><option>17:00</option>
+                  <option>18:00</option><option>19:00</option><option>20:00</option>
+                  <option>21:00</option><option>22:00</option>
+                </select>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Количество гостей</label>
+              <div class="guests-counter">
+                <button type="button" @click="form.guests = Math.max(1, form.guests - 1)">−</button>
+                <span x-text="form.guests"></span>
+                <button type="button" @click="form.guests = Math.min(20, form.guests + 1)">+</button>
+              </div>
+            </div>
+            <div class="form-group">
+              <label>Пожелания</label>
+              <textarea x-model="form.wishes" rows="3" placeholder="Повод, предпочтения по зону, аллергии..."></textarea>
+            </div>
+            <button type="submit" class="btn btn--red btn--full" :disabled="submitted">
+              <span x-show="!submitted">Забронировать стол</span>
+              <span x-show="submitted">✓ Бронирование принято!</span>
+            </button>
+            <p class="form-note">Подтверждение придёт на телефон в течение 10 минут</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Footer -->
+  <footer class="footer">
+    <div class="container">
+      <div class="footer__inner">
+        <div class="footer__brand">
+          <p class="footer__logo">🌿 Берёзка</p>
+          <p>Ресторан русской кухни</p>
+        </div>
+        <div class="footer__nav">
+          <a href="#story">История</a>
+          <a href="#menu-section">Меню</a>
+          <a href="#gallery">Галерея</a>
+          <a href="#reserve">Резервация</a>
+        </div>
+        <div class="footer__social">
+          <a href="#">ВКонтакте</a>
+          <a href="#">Telegram</a>
+          <a href="#">Instagram</a>
+        </div>
+      </div>
+      <div class="footer__copy">
+        <p>© 2025 Ресторан «Берёзка» · Москва, ул. Арбат, 22 · +7 (495) 123-45-67</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
